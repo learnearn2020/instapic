@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Comment;
+
 class commentController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    public function save(Request $request  )
+    public function save(Request $request)
     {
+        $name_nam='iyh';
         $comment=new Comment();
         $user=Auth::user();
         $id_user=$user->id;
-        $validate=$this->validate($request,[
+        $validate=$this->validate($request, [
             'image_id'=>['integer','required'],
             'comment'=>['required','string']
         ]);
@@ -27,21 +29,17 @@ class commentController extends Controller
         $comment->image_id=$image_id;
         $comment->content=$comment_user;
         $comment->save();
-        return redirect()->route('share.detail',['id'=>$image_id])->with('message','Your comment has been published successfully !');
+        return redirect()->route('share.detail', ['id'=>$image_id])->with('message', 'Your comment has been published successfully !');
     }
     public function delete($id)
     {
         $user=Auth::user();
         $comment=Comment::find($id);
-        if($user && ($user->id == $comment->user_id || $comment->image->user_id==$user->id)){
+        if ($user && ($user->id == $comment->user_id || $comment->image->user_id==$user->id)) {
             $comment->delete();
-            return redirect()->route('share.detail',['id'=>$comment->image->id])->with('message','Your comment has been deleted successfully !');
-
-            
-        }else{
-            return redirect()->route('share.detail',['id'=>$comment->image->id])->with('message','Ouupps!! Error by deleting your comment!');
-
+            return redirect()->route('share.detail', ['id'=>$comment->image->id])->with('message', 'Your comment has been deleted successfully !');
+        } else {
+            return redirect()->route('share.detail', ['id'=>$comment->image->id])->with('message', 'Ouupps!! Error by deleting your comment!');
         }
     }
 }
-// Auth::user()->id == $comment->user_id || $comment->image->user_id==Auth::user()->id

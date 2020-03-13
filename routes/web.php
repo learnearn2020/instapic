@@ -13,44 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Image;
-/*
-Route::get('/try', function () {
-    $imges=Image::all();
-    foreach($imges as $image){
-        
-        echo $image->image_path. ' - ' . $image->description. ' - '.$image->user->name.  '<br>';
-        echo 'Comments : ';
-        if(count($image->comments)>=1){
-            echo '<div style=" color:white; background-color:black;padding:10px;border-radius:2px;width:300px;">';
-            foreach($image->comments as $comment){
-               
-                echo $comment->user->name . ' ' .  $comment->user->surname . '  says :  '.   $comment->content. '<br>';
-               
-            }
-            echo '</div>';
-        }else{
-            echo '<div style=" color:white; background-color:red;padding:10px;border-radius:2px;width:300px;">';
 
-             echo 'No comment por ahora';
-            echo '</div>';
-
-        }
-        echo '<div style="width:20px;height:20px;border-radius:50%; background-color:red;color:black; text-align:center;padding:5px;margin:5px;" >';
-            echo count($image->likes);
-
-        echo '</div>';
-        
-        echo '<hr>';
-        
-    }
-
-    die();
-    return view('welcome');
-});
-*/
 Auth::routes();
 
-// Users routes 
+// Users routes
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/config', 'userController@config')->name('config');
 Route::get('/users/{search?}', 'userController@index')->name('user.index');
@@ -77,7 +43,3 @@ Route::get('/image/delete/{id}', 'shareController@delete')->name('image.delete')
 Route::get('/image/edit/{id}', 'shareController@edit')->name('image.edit');
 Route::post('image/update', 'shareController@update')->name('image.update');
 Route::get('/likes', 'likeController@index')->name('like.index');
-
-
-
-
